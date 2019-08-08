@@ -1,0 +1,161 @@
+package com.candraibra.moviecatalog4.fragment;
+
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.candraibra.moviecatalog4.R;
+import com.candraibra.moviecatalog4.adapter.MovieAdapter;
+import com.candraibra.moviecatalog4.adapter.TvAdapter;
+import com.candraibra.moviecatalog4.model.Movie;
+import com.candraibra.moviecatalog4.model.Tv;
+import com.candraibra.moviecatalog4.network.MoviesRepository;
+import com.candraibra.moviecatalog4.network.OnGetMoviesCallback;
+import com.candraibra.moviecatalog4.network.OnGetTvCallback;
+import com.candraibra.moviecatalog4.network.TvRepository;
+
+import java.util.ArrayList;
+
+public class PopularFragment extends Fragment {
+
+    private ArrayList<Movie> movieArrayList = new ArrayList<>();
+    private ArrayList<Tv> tvArrayList = new ArrayList<>();
+    private MovieAdapter adapter;
+    private TvAdapter adapter2;
+    private RecyclerView rvPopular, rvPopular2;
+    private MoviesRepository moviesRepository;
+    private TvRepository tvRepository;
+    private ProgressBar progressBar;
+    private final static String LIST_STATE_KEY = "STATE";
+    private final static String LIST_STATE_KEY2 = "STATE2";
+
+    public PopularFragment() {
+
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_popular, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        rvPopular = view.findViewById(R.id.rv_popular_movie);
+        rvPopular2 = view.findViewById(R.id.rv_popular_tv);
+        progressBar = view.findViewById(R.id.progressBar);
+        rvPopular.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        rvPopular.setHasFixedSize(true);
+        moviesRepository = MoviesRepository.getInstance();
+        rvPopular2.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        rvPopular2.setHasFixedSize(true);
+        tvRepository = TvRepository.getInstance();
+        if (savedInstanceState != null) {
+            progressBar.setVisibility(View.INVISIBLE);
+            final ArrayList<Movie> moviesState = savedInstanceState.getParcelableArrayList(LIST_STATE_KEY);
+            assert moviesState != null;
+            movieArrayList.addAll(moviesState);
+            adapter = new MovieAdapter(getActivity());
+            adapter.setMovieList(moviesState);
+            rvPopular.setAdapter(adapter);
+            final ArrayList<Tv> tvState = savedInstanceState.getParcelableArrayList(LIST_STATE_KEY2);
+            assert tvState != null;
+            tvArrayList.addAll(tvState);
+            adapter2 = new TvAdapter(getContext());
+            adapter2.setTvList(tvState);
+            rvPopular2.setAdapter(adapter2);
+            // ItemClickSupport.addTo(rvCategory).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            //     @Override
+            //     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+            //         Intent intent = new Intent(getActivity(), DetailActivity.class);
+            //         intent.putExtra(DetailActivity.EXTRA_MOVIE, moviesState.get(position));
+            //         startActivity(intent);
+            //     }
+            // });
+        } else {
+            getData();
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(LIST_STATE_KEY, movieArrayList);
+        outState.putParcelableArrayList(LIST_STATE_KEY2, tvArrayList);
+    }
+
+    private void getData() {
+        moviesRepository.getMoviesPopular(new OnGetMoviesCallback() {
+            @Override
+            public void onSuccess(final ArrayList<Movie> movies) {
+                adapter = new MovieAdapter(getContext());
+                adapter.setMovieList(movies);
+                rvPopular.setAdapter(adapter);
+                progressBar.setVisibility(View.GONE);
+                movieArrayList.addAll(movies);
+                //  ItemClickSupport.addTo(rvPopular).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                //      @Override
+                //      public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                //          Intent intent = new Intent(getActivity(), DetailActivity.class);
+                //          intent.putExtra(DetailActivity.EXTRA_MOVIE, movies.get(position));
+                //          startActivity(intent);
+                //      }
+                //  });
+
+
+            }
+
+            String toast_msg = getString(R.string.toastmsg);
+
+            @Override
+            public void onError() {
+                Toast.makeText(getActivity(), toast_msg, Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
+        tvRepository.getTvPopular(new OnGetTvCallback() {
+            @Override
+            public void onSuccess(final ArrayList<Tv> tvs) {
+                adapter2 = new TvAdapter(getActivity());
+                adapter2.setTvList(tvs);
+                rvPopular2.setAdapter(adapter2);
+                progressBar.setVisibility(View.GONE);
+                tvArrayList.addAll(tvs);
+                //ItemClickSupport.addTo(rvPopular2).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                //    @Override
+                //    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                //        Intent intent = new Intent(getActivity(), DetailActivity.class);
+                //        intent.putExtra(DetailActivity.EXTRA_TV, tvs.get(position));
+                //        startActivity(intent);
+                //    }
+                //});
+
+
+            }
+
+            String toast_msg = getString(R.string.toastmsg);
+
+            @Override
+            public void onError() {
+                Toast.makeText(getActivity(), toast_msg, Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
+
+    }
+
+
+}

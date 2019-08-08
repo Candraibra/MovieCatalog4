@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">MovieCatalog4</string>
+    <string name="title_trending">Popular</string>
+    <string name="title_movie">Movie</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="title_tv_show">Tv Show</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Movie">Movie</string>
+    <string name="Catalog">Catalog</string>
+    <string name="Lets_start">Let\'s Start!</string>
+    <string name="popular_movies">Popular Movies</string>
+    <string name="popular_tv_shows">Popular Tv Shows</string>
+    <string name="Lets_see">Let\'s See!</string>
+    <string name="welcome">What do you want to watch today?</string>
+    <string name="favorite">Your liked movies</string>
+    <string name="liked_movies">Liked Movies</string>
+    <string name="liked_tv_shows">Liked Tv Shows</string>
+    <string name="toastmsg">Please Check Your Internet Connection</string>
+    <string name="more_movies">More? </string>
+</resources>
