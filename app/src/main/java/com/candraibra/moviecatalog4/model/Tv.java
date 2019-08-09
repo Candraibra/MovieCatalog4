@@ -51,6 +51,19 @@ public class Tv implements Parcelable {
     @Expose
     private String posterPath;
 
+    @SerializedName("genres")
+    @Expose
+    private List<Genre> genres;
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+
     public String getOriginalName() {
         return originalName;
     }
@@ -182,7 +195,7 @@ public class Tv implements Parcelable {
 
     protected Tv(Parcel in) {
         this.originalName = in.readString();
-        this.genreIds = new ArrayList<Integer>();
+        this.genreIds = new ArrayList<>();
         in.readList(this.genreIds, Integer.class.getClassLoader());
         this.name = in.readString();
         this.popularity = (Double) in.readValue(Double.class.getClassLoader());

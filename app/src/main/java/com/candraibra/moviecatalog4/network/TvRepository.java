@@ -3,6 +3,8 @@ package com.candraibra.moviecatalog4.network;
 import androidx.annotation.NonNull;
 
 import com.candraibra.moviecatalog4.BuildConfig;
+import com.candraibra.moviecatalog4.model.GenreResponse;
+import com.candraibra.moviecatalog4.model.Tv;
 import com.candraibra.moviecatalog4.model.TvResponse;
 
 import retrofit2.Call;
@@ -55,6 +57,54 @@ public class TvRepository {
 
                     @Override
                     public void onFailure(@NonNull Call<TvResponse> call, @NonNull Throwable t) {
+                        callback.onError();
+                    }
+                });
+    }
+
+    public void getGenres(final OnGetGenresCallback callback) {
+        api.getGenres(BuildConfig.ApiKey, LANGUAGE)
+                .enqueue(new Callback<GenreResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<GenreResponse> call, @NonNull Response<GenreResponse> response) {
+                        if (response.isSuccessful()) {
+                            GenreResponse genresResponse = response.body();
+                            if (genresResponse != null && genresResponse.getGenres() != null) {
+                                callback.onSuccess(genresResponse.getGenres());
+                            } else {
+                                callback.onError();
+                            }
+                        } else {
+                            callback.onError();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<GenreResponse> call, @NonNull Throwable t) {
+                        callback.onError();
+                    }
+                });
+    }
+
+    public void getTv(int tvId, final OnGetDetailTv callback) {
+        api.getTv(tvId, BuildConfig.ApiKey, LANGUAGE)
+                .enqueue(new Callback<Tv>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Tv> call, @NonNull Response<Tv> response) {
+                        if (response.isSuccessful()) {
+                            Tv tv = response.body();
+                            if (tv != null) {
+                                callback.onSuccess(tv);
+                            } else {
+                                callback.onError();
+                            }
+                        } else {
+                            callback.onError();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<Tv> call, @NonNull Throwable t) {
                         callback.onError();
                     }
                 });

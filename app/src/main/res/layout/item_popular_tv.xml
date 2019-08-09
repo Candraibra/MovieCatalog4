@@ -36,11 +36,12 @@
             android:layout_width="200dp"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
+            android:maxLines="2"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_medium"
             android:gravity="center"
             android:textColor="@color/black_sub"
-            android:textSize="20sp"
+            android:textSize="16sp"
             tools:text="@string/title_movie" />
     </LinearLayout>
 </FrameLayout>

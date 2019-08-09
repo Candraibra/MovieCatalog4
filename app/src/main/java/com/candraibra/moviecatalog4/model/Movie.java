@@ -54,6 +54,18 @@ public class Movie implements Parcelable {
     @Expose
     private String releaseDate;
 
+    @SerializedName("genres")
+    @Expose
+    private List<Genre> genres;
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
     public Integer getVoteCount() {
         return voteCount;
     }
@@ -202,7 +214,7 @@ public class Movie implements Parcelable {
         this.posterPath = in.readString();
         this.originalLanguage = in.readString();
         this.originalTitle = in.readString();
-        this.genreIds = new ArrayList<Integer>();
+        this.genreIds = new ArrayList<>();
         in.readList(this.genreIds, Integer.class.getClassLoader());
         this.backdropPath = in.readString();
         this.adult = (Boolean) in.readValue(Boolean.class.getClassLoader());

@@ -1,6 +1,7 @@
 package com.candraibra.moviecatalog4.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.candraibra.moviecatalog4.R;
+import com.candraibra.moviecatalog4.activity.DetailMovieActivity;
+import com.candraibra.moviecatalog4.activity.DetailTvActivity;
 import com.candraibra.moviecatalog4.adapter.MovieAdapter;
 import com.candraibra.moviecatalog4.adapter.TvAdapter;
 import com.candraibra.moviecatalog4.model.Movie;
@@ -23,6 +26,7 @@ import com.candraibra.moviecatalog4.network.MoviesRepository;
 import com.candraibra.moviecatalog4.network.OnGetMoviesCallback;
 import com.candraibra.moviecatalog4.network.OnGetTvCallback;
 import com.candraibra.moviecatalog4.network.TvRepository;
+import com.candraibra.moviecatalog4.utils.ItemClickSupport;
 
 import java.util.ArrayList;
 
@@ -38,6 +42,7 @@ public class PopularFragment extends Fragment {
     private ProgressBar progressBar;
     private final static String LIST_STATE_KEY = "STATE";
     private final static String LIST_STATE_KEY2 = "STATE2";
+
 
     public PopularFragment() {
 
@@ -74,18 +79,19 @@ public class PopularFragment extends Fragment {
             adapter2 = new TvAdapter(getContext());
             adapter2.setTvList(tvState);
             rvPopular2.setAdapter(adapter2);
-            // ItemClickSupport.addTo(rvCategory).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-            //     @Override
-            //     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-            //         Intent intent = new Intent(getActivity(), DetailActivity.class);
-            //         intent.putExtra(DetailActivity.EXTRA_MOVIE, moviesState.get(position));
-            //         startActivity(intent);
-            //     }
-            // });
+            ItemClickSupport.addTo(rvPopular).setOnItemClickListener((recyclerView, position, v) -> {
+                Intent intent = new Intent(getActivity(), DetailMovieActivity.class);
+                intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, moviesState.get(position));
+                startActivity(intent);
+            });
+            ItemClickSupport.addTo(rvPopular2).setOnItemClickListener((recyclerView, position, v) -> {
+                Intent intent = new Intent(getActivity(), DetailMovieActivity.class);
+                intent.putExtra(DetailTvActivity.EXTRA_TV, tvState.get(position));
+                startActivity(intent);
+            });
         } else {
             getData();
         }
-
     }
 
     @Override
@@ -104,26 +110,18 @@ public class PopularFragment extends Fragment {
                 rvPopular.setAdapter(adapter);
                 progressBar.setVisibility(View.GONE);
                 movieArrayList.addAll(movies);
-                //  ItemClickSupport.addTo(rvPopular).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-                //      @Override
-                //      public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                //          Intent intent = new Intent(getActivity(), DetailActivity.class);
-                //          intent.putExtra(DetailActivity.EXTRA_MOVIE, movies.get(position));
-                //          startActivity(intent);
-                //      }
-                //  });
-
-
+                ItemClickSupport.addTo(rvPopular).setOnItemClickListener((recyclerView, position, v) -> {
+                    Intent intent = new Intent(getActivity(), DetailMovieActivity.class);
+                    intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, movies.get(position));
+                    startActivity(intent);
+                });
             }
-
-            String toast_msg = getString(R.string.toastmsg);
 
             @Override
             public void onError() {
+                String toast_msg = getString(R.string.toastmsg);
                 Toast.makeText(getActivity(), toast_msg, Toast.LENGTH_SHORT).show();
-
             }
-
         });
         tvRepository.getTvPopular(new OnGetTvCallback() {
             @Override
@@ -133,29 +131,18 @@ public class PopularFragment extends Fragment {
                 rvPopular2.setAdapter(adapter2);
                 progressBar.setVisibility(View.GONE);
                 tvArrayList.addAll(tvs);
-                //ItemClickSupport.addTo(rvPopular2).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-                //    @Override
-                //    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                //        Intent intent = new Intent(getActivity(), DetailActivity.class);
-                //        intent.putExtra(DetailActivity.EXTRA_TV, tvs.get(position));
-                //        startActivity(intent);
-                //    }
-                //});
-
-
+                ItemClickSupport.addTo(rvPopular2).setOnItemClickListener((recyclerView, position, v) -> {
+                    Intent intent = new Intent(getActivity(), DetailTvActivity.class);
+                    intent.putExtra(DetailTvActivity.EXTRA_TV, tvs.get(position));
+                    startActivity(intent);
+                });
             }
-
-            String toast_msg = getString(R.string.toastmsg);
 
             @Override
             public void onError() {
+                String toast_msg = getString(R.string.toastmsg);
                 Toast.makeText(getActivity(), toast_msg, Toast.LENGTH_SHORT).show();
-
             }
-
         });
-
     }
-
-
 }

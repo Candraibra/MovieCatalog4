@@ -3,6 +3,8 @@ package com.candraibra.moviecatalog4.network;
 import androidx.annotation.NonNull;
 
 import com.candraibra.moviecatalog4.BuildConfig;
+import com.candraibra.moviecatalog4.model.GenreResponse;
+import com.candraibra.moviecatalog4.model.Movie;
 import com.candraibra.moviecatalog4.model.MoviesResponse;
 
 import retrofit2.Call;
@@ -59,4 +61,51 @@ public class MoviesRepository {
                 });
     }
 
+    public void getGenres(final OnGetGenresCallback callback) {
+        api.getGenres(BuildConfig.ApiKey, LANGUAGE)
+                .enqueue(new Callback<GenreResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<GenreResponse> call,@NonNull Response<GenreResponse> response) {
+                        if (response.isSuccessful()) {
+                            GenreResponse genresResponse = response.body();
+                            if (genresResponse != null && genresResponse.getGenres() != null) {
+                                callback.onSuccess(genresResponse.getGenres());
+                            } else {
+                                callback.onError();
+                            }
+                        } else {
+                            callback.onError();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<GenreResponse> call,@NonNull Throwable t) {
+                        callback.onError();
+                    }
+                });
+    }
+
+    public void getMovie(int movieId, final OnGetDetailMovie callback) {
+        api.getMovie(movieId, BuildConfig.ApiKey, LANGUAGE)
+                .enqueue(new Callback<Movie>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Movie> call,@NonNull Response<Movie> response) {
+                        if (response.isSuccessful()) {
+                            Movie movie = response.body();
+                            if (movie != null) {
+                                callback.onSuccess(movie);
+                            } else {
+                                callback.onError();
+                            }
+                        } else {
+                            callback.onError();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<Movie> call,@NonNull Throwable t) {
+                        callback.onError();
+                    }
+                });
+    }
 }

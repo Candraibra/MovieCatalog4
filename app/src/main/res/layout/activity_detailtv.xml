@@ -31,8 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="25dp"
-            android:background="#00000000"
             android:contentDescription="@string/back"
+            android:background="#00000000"
             android:src="@drawable/ic_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -151,7 +151,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/avenir_medium"
-                    android:text="@string/realise"
+                    android:text="@string/first_realise"
                     android:textColor="@color/black_main"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -162,8 +162,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginBottom="20dp"
                     android:fontFamily="@font/avenir_medium"
+                    android:paddingBottom="30dp"
                     android:textColor="@color/black_sub"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -210,5 +210,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/poster" />
         </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </androidx.core.widget.NestedScrollView>

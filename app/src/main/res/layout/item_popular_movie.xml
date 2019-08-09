@@ -39,8 +39,9 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_medium"
             android:gravity="center"
+            android:maxLines="1"
             android:textColor="@color/black_sub"
-            android:textSize="20sp"
+            android:textSize="16sp"
             tools:text="@string/title_movie" />
     </LinearLayout>
 </FrameLayout>

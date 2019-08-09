@@ -15,8 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.MoreActivity"></activity>
-        <activity android:name=".activity.DetailActivity" />
+        <activity android:name=".activity.MoreActivity" />
+        <activity android:name=".activity.DetailMovieActivity" />
+        <activity android:name=".activity.DetailTvActivity" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
