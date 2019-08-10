@@ -3,7 +3,6 @@ package com.candraibra.moviecatalog4.network;
 import com.candraibra.moviecatalog4.model.GenreResponse;
 import com.candraibra.moviecatalog4.model.Movie;
 import com.candraibra.moviecatalog4.model.MoviesResponse;
-import com.candraibra.moviecatalog4.model.TrailerResponse;
 import com.candraibra.moviecatalog4.model.Tv;
 import com.candraibra.moviecatalog4.model.TvResponse;
 
@@ -21,11 +20,22 @@ public interface TMDbApi {
             @Query("page") int page
     );
 
-    @GET("movie/{movie_id}/videos")
-    Call<TrailerResponse> getMovieTrailer(@Path("movie_id") int id, @Query("api_key") String apiKey);
+    @GET("movie/upcoming")
+    Call<MoviesResponse> getUpcomingMovies(
+            @Query("api_key") String apiKey,
+            @Query("language") String language,
+            @Query("page") int page
+    );
 
     @GET("tv/popular")
     Call<TvResponse> getPopularTv(
+            @Query("api_key") String apiKey,
+            @Query("language") String language,
+            @Query("page") int page
+    );
+
+    @GET("tv/on_the_air")
+    Call<TvResponse> getUpcomingTv(
             @Query("api_key") String apiKey,
             @Query("language") String language,
             @Query("page") int page

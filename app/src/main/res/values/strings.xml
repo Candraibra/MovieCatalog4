@@ -30,4 +30,6 @@
     <string name="any_movies">All Movies</string>
     <string name="setting">Setting</string>
     <string name="any_tvs">All Tv Shows</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="on_the_air">On The Air</string>
 </resources>

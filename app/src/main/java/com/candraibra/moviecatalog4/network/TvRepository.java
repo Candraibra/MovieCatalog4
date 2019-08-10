@@ -110,4 +110,27 @@ public class TvRepository {
                 });
     }
 
+    public void getTvPage(int page, final OnGetPageTv callback) {
+        api.getUpcomingTv(BuildConfig.ApiKey, LANGUAGE, page)
+                .enqueue(new Callback<TvResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<TvResponse> call, @NonNull Response<TvResponse> response) {
+                        if (response.isSuccessful()) {
+                            TvResponse tvResponse = response.body();
+                            if (tvResponse != null && tvResponse.getTvs() != null) {
+                                callback.onSuccess(tvResponse.getPage(), tvResponse.getTvs());
+                            } else {
+                                callback.onError();
+                            }
+                        } else {
+                            callback.onError();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<TvResponse> call, @NonNull Throwable t) {
+                        callback.onError();
+                    }
+                });
+    }
 }

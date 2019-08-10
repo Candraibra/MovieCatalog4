@@ -65,7 +65,7 @@ public class MoviesRepository {
         api.getGenres(BuildConfig.ApiKey, LANGUAGE)
                 .enqueue(new Callback<GenreResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<GenreResponse> call,@NonNull Response<GenreResponse> response) {
+                    public void onResponse(@NonNull Call<GenreResponse> call, @NonNull Response<GenreResponse> response) {
                         if (response.isSuccessful()) {
                             GenreResponse genresResponse = response.body();
                             if (genresResponse != null && genresResponse.getGenres() != null) {
@@ -79,7 +79,7 @@ public class MoviesRepository {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<GenreResponse> call,@NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<GenreResponse> call, @NonNull Throwable t) {
                         callback.onError();
                     }
                 });
@@ -89,7 +89,7 @@ public class MoviesRepository {
         api.getMovie(movieId, BuildConfig.ApiKey, LANGUAGE)
                 .enqueue(new Callback<Movie>() {
                     @Override
-                    public void onResponse(@NonNull Call<Movie> call,@NonNull Response<Movie> response) {
+                    public void onResponse(@NonNull Call<Movie> call, @NonNull Response<Movie> response) {
                         if (response.isSuccessful()) {
                             Movie movie = response.body();
                             if (movie != null) {
@@ -103,7 +103,31 @@ public class MoviesRepository {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<Movie> call,@NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<Movie> call, @NonNull Throwable t) {
+                        callback.onError();
+                    }
+                });
+    }
+
+    public void getMoviesPage(int page, final OnGetPageMovie callback) {
+        api.getUpcomingMovies(BuildConfig.ApiKey, LANGUAGE, page)
+                .enqueue(new Callback<MoviesResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<MoviesResponse> call, @NonNull Response<MoviesResponse> response) {
+                        if (response.isSuccessful()) {
+                            MoviesResponse moviesResponse = response.body();
+                            if (moviesResponse != null && moviesResponse.getMovies() != null) {
+                                callback.onSuccess(moviesResponse.getPage(), moviesResponse.getMovies());
+                            } else {
+                                callback.onError();
+                            }
+                        } else {
+                            callback.onError();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<MoviesResponse> call, @NonNull Throwable t) {
                         callback.onError();
                     }
                 });
