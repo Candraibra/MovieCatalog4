@@ -26,4 +26,8 @@
     <string name="realise">Realise Date</string>
     <string name="first_realise">First Realise Date</string>
     <string name="back">Back</string>
+    <string name="discover">Discover</string>
+    <string name="any_movies">All Movies</string>
+    <string name="setting">Setting</string>
+    <string name="any_tvs">All Tv Shows</string>
 </resources>

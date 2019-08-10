@@ -107,7 +107,7 @@
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_liked_movie"
-            tools:listitem="@layout/item_popular_movie">
+            tools:listitem="@layout/item_discover_movie">
 
         </androidx.recyclerview.widget.RecyclerView>
 
