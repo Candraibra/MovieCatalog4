@@ -11,6 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:clipToPadding="false"
         android:paddingBottom="24dp">
 
@@ -37,140 +38,153 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_favorite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="250dp"
-            android:background="@color/white"
+            android:background="@color/colorPrimary"
             app:cardCornerRadius="16dp"
-            app:layout_constraintTop_toTopOf="@+id/img_poster">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/TOP_START"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/TOP_START"
-                    android:layout_width="match_parent"
-                    android:layout_height="115dp"
-                    android:background="@color/colorPrimary"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/tv_title"
-                        android:layout_width="250dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/avenir_demi"
-                        android:minWidth="200dp"
-                        android:textColor="@color/white"
-                        android:textSize="25sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="@string/welcome" />
-
-                    <RatingBar
-                        android:id="@+id/rb_userrating"
-                        style="?android:attr/ratingBarStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="16dp"
-                        android:numStars="5"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:progressTint="@android:color/holo_orange_dark"
-                        android:rating="4.4"
-                        android:stepSize="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="115dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/tv_overview"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_title"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/avenir_medium"
-                    android:text="@string/overview"
-                    android:textColor="@color/black_main"
-                    android:textSize="20sp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/avenir_demi"
+                    android:minWidth="200dp"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/TOP_START" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/welcome" />
 
-                <TextView
-                    android:id="@+id/tv_overview_text"
+                <RatingBar
+                    android:id="@+id/rb_userrating"
+                    style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/avenir_medium"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:textColor="@color/black_sub"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_overview"
-                    tools:text="@string/lorem_ipsum" />
-
-                <TextView
-                    android:id="@+id/tv_genre"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/avenir_medium"
-                    android:text="@string/genre"
-                    android:textColor="@color/black_main"
-                    android:textSize="20sp"
+                    android:numStars="5"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:progressTint="@android:color/holo_orange_dark"
+                    android:rating="4.4"
+                    android:stepSize="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_overview_text" />
-
-                <TextView
-                    android:id="@+id/tv_genre_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:fontFamily="@font/avenir_medium"
-                    android:textColor="@color/black_sub"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_genre"
-                    tools:text="@string/genres" />
-
-                <TextView
-                    android:id="@+id/tv_realease"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/avenir_medium"
-                    android:text="@string/realise"
-                    android:textColor="@color/black_main"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_genre_text" />
-
-                <TextView
-                    android:id="@+id/tv_realease_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="20dp"
-                    android:fontFamily="@font/avenir_medium"
-                    android:textColor="@color/black_sub"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_realease"
-                    tools:text="@string/realise" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+            <TextView
+                android:id="@+id/tv_overview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/avenir_demi"
+                android:text="@string/overview"
+                android:textColor="@color/black_main"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_overview_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/avenir_medium"
+                android:paddingStart="0dp"
+                android:paddingEnd="32dp"
+                android:textColor="@color/black_sub"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_overview"
+                tools:text="@string/welcome" />
+
+            <TextView
+                android:id="@+id/tv_genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/avenir_demi"
+                android:text="@string/genre"
+                android:textColor="@color/black_main"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_overview_text" />
+
+            <TextView
+                android:id="@+id/tv_genre_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/avenir_medium"
+                android:textColor="@color/black_sub"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_genre"
+                tools:text="@string/genres" />
+
+            <TextView
+                android:id="@+id/tv_realease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/avenir_demi"
+                android:text="@string/realise"
+                android:textColor="@color/black_main"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_genre_text" />
+
+            <TextView
+                android:id="@+id/tv_realease_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/avenir_medium"
+                android:paddingBottom="30dp"
+                android:textColor="@color/black_sub"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_realease"
+                tools:text="@string/realise" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar
             android:id="@+id/progressBar"

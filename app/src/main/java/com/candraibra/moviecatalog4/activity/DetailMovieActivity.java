@@ -25,16 +25,14 @@ import java.util.List;
 public class DetailMovieActivity extends AppCompatActivity {
     public static final String EXTRA_MOVIE = "extra_movie";
 
-    private static String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w780";
     private static String YOUTUBE_VIDEO_URL = "http://www.youtube.com/watch?v=%s";
     private static String YOUTUBE_THUMBNAIL_URL = "http://img.youtube.com/vi/%s/0.jpg";
     public int movieId;
-    private Movie selectedMovie;
     private ProgressBar progressBar;
     private ImageView imgBanner, imgPoster;
     private String banner, poster, vote;
     private float rating;
-    private TextView tvTitle, tvOverview, tvRealease, tvGenre;
+    private TextView tvTitle, tvOverview, tvRealise, tvGenre;
     private RatingBar ratingBar;
     private MoviesRepository moviesRepository;
 
@@ -50,7 +48,7 @@ public class DetailMovieActivity extends AppCompatActivity {
     }
 
     private void getMovie() {
-        selectedMovie = getIntent().getParcelableExtra(EXTRA_MOVIE);
+        Movie selectedMovie = getIntent().getParcelableExtra(EXTRA_MOVIE);
         movieId = selectedMovie.getId();
         moviesRepository = MoviesRepository.getInstance();
 
@@ -71,8 +69,8 @@ public class DetailMovieActivity extends AppCompatActivity {
                 vote = Double.toString(movie.getVoteAverage() / 2);
                 rating = Float.parseFloat(vote);
                 ratingBar.setRating(rating);
-                tvRealease = findViewById(R.id.tv_realease_text);
-                tvRealease.setText(movie.getReleaseDate());
+                tvRealise = findViewById(R.id.tv_realease_text);
+                tvRealise.setText(movie.getReleaseDate());
 
                 if (!isFinishing()) {
                     Picasso.get().load(poster).placeholder(R.drawable.load).into(imgPoster);

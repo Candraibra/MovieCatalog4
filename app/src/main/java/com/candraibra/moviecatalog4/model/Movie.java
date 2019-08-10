@@ -147,7 +147,7 @@ public class Movie implements Parcelable {
     }
 
     public String getBackdropPath() {
-        return "https://image.tmdb.org/t/p/w500" + backdropPath;
+        return "https://image.tmdb.org/t/p/w780" + backdropPath;
     }
 
     public void setBackdropPath(String backdropPath) {

@@ -85,12 +85,13 @@ public class PopularFragment extends Fragment {
                 startActivity(intent);
             });
             ItemClickSupport.addTo(rvPopular2).setOnItemClickListener((recyclerView, position, v) -> {
-                Intent intent = new Intent(getActivity(), DetailMovieActivity.class);
+                Intent intent = new Intent(getActivity(), DetailTvActivity.class);
                 intent.putExtra(DetailTvActivity.EXTRA_TV, tvState.get(position));
                 startActivity(intent);
             });
         } else {
             getData();
+
         }
     }
 
