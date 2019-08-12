@@ -32,4 +32,6 @@
     <string name="on_the_air"> Siaran </string>
     <string name="language"> Bahasa </string>
     <string name="Back"> Kembali </string>
+    <string name="reviewer">Pengulas</string>
+    <string name="_10">/10</string>
 </resources>

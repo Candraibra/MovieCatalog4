@@ -29,11 +29,12 @@ public class DetailMovieActivity extends AppCompatActivity implements View.OnCli
     public int movieId;
     private ProgressBar progressBar;
     private ImageView imgBanner, imgPoster;
-    private String banner, poster, vote;
+    private String banner, poster, vote, voteCount;
     private float rating;
-    private TextView tvTitle, tvOverview, tvRealise, tvGenre;
+    private TextView tvTitle, tvOverview, tvRealise, tvGenre, tvRating, tvVoter, tvRealiseYear;
     private RatingBar ratingBar;
     private MoviesRepository moviesRepository;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class DetailMovieActivity extends AppCompatActivity implements View.OnCli
         Movie selectedMovie = getIntent().getParcelableExtra(EXTRA_MOVIE);
         movieId = selectedMovie.getId();
         moviesRepository = MoviesRepository.getInstance();
-
+        String reviewer = getString(R.string.reviewer);
         moviesRepository.getMovie(movieId, new OnGetDetailMovie() {
             @Override
             public void onSuccess(Movie movie) {
@@ -69,7 +70,14 @@ public class DetailMovieActivity extends AppCompatActivity implements View.OnCli
                 vote = Double.toString(movie.getVoteAverage() / 2);
                 rating = Float.parseFloat(vote);
                 ratingBar.setRating(rating);
+                tvRating = findViewById(R.id.tv_rating);
+                tvRating.setText(String.valueOf(movie.getVoteAverage()));
+                tvVoter = findViewById(R.id.tv_voter);
+                voteCount = Integer.toString(movie.getVoteCount());
+                tvVoter.setText(voteCount + " " + reviewer);
                 tvRealise = findViewById(R.id.tv_realease_text);
+                tvRealiseYear = findViewById(R.id.tv_realease_year);
+                tvRealiseYear.setText(movie.getReleaseDate().split("-")[0]);
                 tvRealise.setText(movie.getReleaseDate());
 
                 if (!isFinishing()) {
