@@ -4,9 +4,6 @@
     <string name="title_movie">Movie</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_tv_show">Tv Show</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Movie">Movie</string>
     <string name="Catalog">Catalog</string>
     <string name="Lets_start">Let\'s Start!</string>
@@ -32,4 +29,6 @@
     <string name="any_tvs">All Tv Shows</string>
     <string name="upcoming">Upcoming</string>
     <string name="on_the_air">On The Air</string>
+    <string name="language">Language</string>
+    <string name="Back">Back</string>
 </resources>

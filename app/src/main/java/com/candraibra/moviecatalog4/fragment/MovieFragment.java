@@ -1,6 +1,7 @@
 package com.candraibra.moviecatalog4.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +14,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.candraibra.moviecatalog4.R;
+import com.candraibra.moviecatalog4.activity.DetailMovieActivity;
 import com.candraibra.moviecatalog4.adapter.MoviePageAdapter;
 import com.candraibra.moviecatalog4.model.Movie;
 import com.candraibra.moviecatalog4.network.MoviesRepository;
 import com.candraibra.moviecatalog4.network.OnGetPageMovie;
+import com.candraibra.moviecatalog4.utils.ItemClickSupport;
 
 import java.util.ArrayList;
 
@@ -32,6 +35,7 @@ public class MovieFragment extends Fragment {
     private boolean isFetchingMovies;
     private int currentPage = 1;
     private MoviePageAdapter adapter;
+    private final GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
 
     public MovieFragment() {
         // Required empty public constructor
@@ -50,10 +54,28 @@ public class MovieFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rv_discover_movie);
         getMovies(currentPage);
         setupOnScrollListener();
+        if (savedInstanceState != null) {
+            //  progressBar.setVisibility(View.INVISIBLE);
+            final ArrayList<Movie> moviesState = savedInstanceState.getParcelableArrayList(LIST_STATE_KEY);
+            assert moviesState != null;
+            movieArrayList.addAll(moviesState);
+            adapter = new MoviePageAdapter(getActivity());
+            adapter.setMovieList(moviesState);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(manager);
+            ItemClickSupport.addTo(recyclerView).setOnItemClickListener((recyclerView, position, v) -> {
+                Intent intent = new Intent(getActivity(), DetailMovieActivity.class);
+                intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, moviesState.get(position));
+                startActivity(intent);
+            });
+        } else {
+            getMovies(currentPage);
+            setupOnScrollListener();
+        }
     }
 
     private void setupOnScrollListener() {
-        final GridLayoutManager manager = new GridLayoutManager(getActivity(), 3);
+
         recyclerView.setLayoutManager(manager);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -87,6 +109,12 @@ public class MovieFragment extends Fragment {
                     adapter.setMovieList(movies);
                     movieArrayList.addAll(movies);
                     recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(manager);
+                    ItemClickSupport.addTo(recyclerView).setOnItemClickListener((recyclerView, position, v) -> {
+                        Intent intent = new Intent(getActivity(), DetailMovieActivity.class);
+                        intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, movies.get(position));
+                        startActivity(intent);
+                    });
                 } else {
                     adapter.appendMovies(movies);
                 }

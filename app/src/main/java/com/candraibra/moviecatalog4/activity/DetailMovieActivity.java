@@ -3,6 +3,7 @@ package com.candraibra.moviecatalog4.activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -22,11 +23,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailMovieActivity extends AppCompatActivity {
+public class DetailMovieActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String EXTRA_MOVIE = "extra_movie";
 
-    private static String YOUTUBE_VIDEO_URL = "http://www.youtube.com/watch?v=%s";
-    private static String YOUTUBE_THUMBNAIL_URL = "http://img.youtube.com/vi/%s/0.jpg";
     public int movieId;
     private ProgressBar progressBar;
     private ImageView imgBanner, imgPoster;
@@ -40,7 +39,8 @@ public class DetailMovieActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
+        ImageButton btnBack = findViewById(R.id.backButton);
+        btnBack.setOnClickListener(this);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         getMovie();
@@ -111,5 +111,14 @@ public class DetailMovieActivity extends AppCompatActivity {
         Toast.makeText(DetailMovieActivity.this, "Please check your internet connection.", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.backButton) {
+            onBackPressed();
+            {
+                finish();
+            }
+        }
+    }
 }
 

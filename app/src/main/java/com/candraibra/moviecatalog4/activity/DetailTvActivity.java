@@ -22,11 +22,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailTvActivity extends AppCompatActivity {
+public class DetailTvActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String EXTRA_TV = "extra_tv";
-    private static String YOUTUBE_VIDEO_URL = "http://www.youtube.com/watch?v=%s";
-    private static String YOUTUBE_THUMBNAIL_URL = "http://img.youtube.com/vi/%s/0.jpg";
     public int tvId;
     private ProgressBar progressBar;
     private ImageView imgBanner, imgPoster;
@@ -40,7 +38,8 @@ public class DetailTvActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailtv);
-
+        ImageView btnBack = findViewById(R.id.backButton);
+        btnBack.setOnClickListener(this);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -111,5 +110,14 @@ public class DetailTvActivity extends AppCompatActivity {
         Toast.makeText(DetailTvActivity.this, "Please check your internet connection.", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.backButton) {
+            onBackPressed();
+            {
+                finish();
+            }
+        }
+    }
 }
 

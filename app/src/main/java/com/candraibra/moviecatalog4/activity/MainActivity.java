@@ -1,9 +1,7 @@
 package com.candraibra.moviecatalog4.activity;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -16,42 +14,38 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+            = item -> {
+        Fragment fragment;
+        switch (item.getItemId()) {
+            case R.id.navigation_popular:
+                fragment = new PopularFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
+                        .commit();
+                return true;
+            case R.id.navigation_movie:
+                fragment = new MovieFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
+                        .commit();
+                return true;
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment fragment;
-            switch (item.getItemId()) {
-                case R.id.navigation_popular:
-                    fragment = new PopularFragment();
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
-                            .commit();
-                    return true;
-                case R.id.navigation_movie:
-                    fragment = new MovieFragment();
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
-                            .commit();
-                    return true;
+            case R.id.navigation_tv_show:
+                fragment = new TvFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
+                        .commit();
 
-                case R.id.navigation_tv_show:
-                    fragment = new TvFragment();
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
-                            .commit();
+                return true;
+            case R.id.navigation_favorite:
+                fragment = new FavoriteFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
+                        .commit();
 
-                    return true;
-                case R.id.navigation_favorite:
-                    fragment = new FavoriteFragment();
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
-                            .commit();
-
-                    return true;
-            }
-            return false;
+                return true;
         }
+        return false;
     };
 
     @Override

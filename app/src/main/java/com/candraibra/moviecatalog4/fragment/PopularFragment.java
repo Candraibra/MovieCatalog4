@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.candraibra.moviecatalog4.R;
 import com.candraibra.moviecatalog4.activity.DetailMovieActivity;
 import com.candraibra.moviecatalog4.activity.DetailTvActivity;
+import com.candraibra.moviecatalog4.activity.SettingActivity;
 import com.candraibra.moviecatalog4.adapter.MovieAdapter;
 import com.candraibra.moviecatalog4.adapter.TvAdapter;
 import com.candraibra.moviecatalog4.model.Movie;
@@ -30,7 +32,7 @@ import com.candraibra.moviecatalog4.utils.ItemClickSupport;
 
 import java.util.ArrayList;
 
-public class PopularFragment extends Fragment {
+public class PopularFragment extends Fragment implements View.OnClickListener {
 
     private ArrayList<Movie> movieArrayList = new ArrayList<>();
     private ArrayList<Tv> tvArrayList = new ArrayList<>();
@@ -56,6 +58,8 @@ public class PopularFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ImageButton btnSetting = view.findViewById(R.id.btnSetting);
+        btnSetting.setOnClickListener(this);
         rvPopular = view.findViewById(R.id.rv_popular_movie);
         rvPopular2 = view.findViewById(R.id.rv_popular_tv);
         progressBar = view.findViewById(R.id.progressBar);
@@ -145,5 +149,13 @@ public class PopularFragment extends Fragment {
                 Toast.makeText(getActivity(), toast_msg, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnSetting) {
+            Intent intent = new Intent(getActivity(), SettingActivity.class);
+            startActivity(intent);
+        }
     }
 }

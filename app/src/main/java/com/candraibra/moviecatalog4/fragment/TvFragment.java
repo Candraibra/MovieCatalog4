@@ -1,6 +1,7 @@
 package com.candraibra.moviecatalog4.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +15,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.candraibra.moviecatalog4.R;
+import com.candraibra.moviecatalog4.activity.DetailTvActivity;
 import com.candraibra.moviecatalog4.adapter.TvPageAdapter;
 import com.candraibra.moviecatalog4.model.Tv;
 import com.candraibra.moviecatalog4.network.OnGetPageTv;
 import com.candraibra.moviecatalog4.network.TvRepository;
+import com.candraibra.moviecatalog4.utils.ItemClickSupport;
 
 import java.util.ArrayList;
 
@@ -27,11 +30,13 @@ import java.util.ArrayList;
 public class TvFragment extends Fragment {
     private final static String LIST_STATE_KEY2 = "STATE2";
     private ArrayList<Tv> tvArrayList = new ArrayList<>();
+    private final GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
     private TvRepository tvRepository;
     private RecyclerView recyclerView;
     private boolean isFetchingTv;
     private int currentPage = 1;
     private TvPageAdapter adapter;
+    private ArrayList<Tv> tvArrayList2 = new ArrayList<>();
 
     public TvFragment() {
         // Required empty public constructor
@@ -48,12 +53,27 @@ public class TvFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         tvRepository = TvRepository.getInstance();
         recyclerView = view.findViewById(R.id.rv_discover_tv);
-        getTv(currentPage);
-        setupOnScrollListener();
+        if (savedInstanceState != null) {
+            //  progressBar.setVisibility(View.INVISIBLE);
+            final ArrayList<Tv> tvState = savedInstanceState.getParcelableArrayList(LIST_STATE_KEY2);
+            assert tvState != null;
+            tvArrayList.addAll(tvState);
+            adapter = new TvPageAdapter(getContext());
+            adapter.setTvList(tvState);
+            recyclerView.setLayoutManager(manager);
+            recyclerView.setAdapter(adapter);
+            ItemClickSupport.addTo(recyclerView).setOnItemClickListener((recyclerView, position, v) -> {
+                Intent intent = new Intent(getActivity(), DetailTvActivity.class);
+                intent.putExtra(DetailTvActivity.EXTRA_TV, tvState.get(position));
+                startActivity(intent);
+            });
+        } else {
+            getTv(currentPage);
+            setupOnScrollListener();
+        }
     }
 
     private void setupOnScrollListener() {
-        final GridLayoutManager manager = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(manager);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -87,6 +107,11 @@ public class TvFragment extends Fragment {
                     adapter.setTvList(tvs);
                     tvArrayList.addAll(tvs);
                     recyclerView.setAdapter(adapter);
+                    ItemClickSupport.addTo(recyclerView).setOnItemClickListener((recyclerView, position, v) -> {
+                        Intent intent = new Intent(getActivity(), DetailTvActivity.class);
+                        intent.putExtra(DetailTvActivity.EXTRA_TV, tvs.get(position));
+                        startActivity(intent);
+                    });
                 } else {
                     adapter.appendTv(tvs);
                 }
