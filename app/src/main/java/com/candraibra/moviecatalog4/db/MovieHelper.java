@@ -104,15 +104,15 @@ public class MovieHelper {
         database.delete(DbContract.FavoriteMovie.TABLE_NAME, DbContract.FavoriteMovie.COLUMN_MOVIEID + "=" + id, null);
     }
 
-    public void searchMovie(String id) {
-        database = dataBaseHelper.getReadableDatabase();
-        String[] columns = new String[]{COLUMN_MOVIEID};
-        String where = COLUMN_MOVIEID + " = ?";
-        String[] whereArgs = new String[]{id};
-        Cursor cursor = database.query(DbContract.FavoriteMovie.TABLE_NAME, columns, where, whereArgs, null, null, null);
-        cursor.moveToFirst();
-        cursor.close();
+    public Cursor queryById(String id) {
+        return database.query(DATABASE_TABLE
+                , null
+                , _ID + " = ?"
+                , new String[]{id}
+                , null
+                , null
+                , null
+                , null);
     }
-
 }
 

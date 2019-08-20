@@ -20,12 +20,14 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/title_movie"
+            android:minHeight="270dp"
             android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="H,16:10"
+            app:layout_constraintDimensionRatio="H,16:11.5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/poster" />
+
 
         <ImageButton
             android:id="@+id/backButton"
@@ -39,7 +41,6 @@
             android:src="@drawable/ic_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnFav"
             android:layout_width="wrap_content"
@@ -59,38 +60,40 @@
             android:src="@drawable/ic_delete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="220dp"
-            android:elevation="10dp"
+            android:layout_marginTop="245dp"
+            android:animateLayoutChanges="true"
             android:background="@color/colorPrimary"
+            android:elevation="10dp"
             app:cardCornerRadius="16dp"
+            app:cardPreventCornerOverlap="true"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/TOP_START"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/tv_title"
-                    android:layout_width="260dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:maxLines="2"
+                    android:layout_marginEnd="135dp"
                     android:ellipsize="end"
-                    android:layout_marginBottom="0dp"
-                    android:padding="0dp"
                     android:fontFamily="@font/avenir_demi"
+                    android:maxLines="1"
+                    android:padding="0dp"
                     android:textColor="@color/white"
-                    android:textSize="27sp"
+                    android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/welcome" />
@@ -101,15 +104,55 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="8dp"
-                    android:paddingBottom="10dp"
                     android:fontFamily="@font/avenir_demi"
                     android:textColor="@color/white_darker"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_title"
                     tools:text="@string/realise" />
 
+                <TextView
+                    android:id="@+id/tv_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/avenir_medium"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_realease_year"
+                    tools:text="4.5" />
 
+                <RatingBar
+                    android:id="@+id/rb_userrating"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:numStars="1"
+                    android:paddingBottom="10dp"
+                    android:progressTint="@android:color/holo_orange_dark"
+                    android:rating="1"
+                    app:layout_constraintStart_toEndOf="@id/tv_rating"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_realease_year" />
+
+                <TextView
+                    android:id="@+id/tv_voter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/avenir_medium"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/white_darker"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toEndOf="@id/rb_userrating"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_realease_year"
+                    tools:text="4.5/5" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -117,10 +160,41 @@
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="300dp"
             android:background="@color/white"
+            android:paddingTop="70dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView">
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_title_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/avenir_demi"
+                android:text="@string/Title"
+                android:textColor="@color/black_main"
+                android:textSize="23sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/avenir_medium"
+                android:paddingStart="0dp"
+                android:paddingEnd="26dp"
+                android:textColor="@color/black_sub"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_desc"
+                tools:text="@string/welcome" />
 
             <TextView
                 android:id="@+id/tv_overview"
@@ -131,9 +205,9 @@
                 android:fontFamily="@font/avenir_demi"
                 android:text="@string/overview"
                 android:textColor="@color/black_main"
-                android:textSize="20sp"
+                android:textSize="23sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_text" />
 
             <TextView
                 android:id="@+id/tv_overview_text"
@@ -144,7 +218,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/avenir_medium"
                 android:paddingStart="0dp"
-                android:paddingEnd="32dp"
+                android:paddingEnd="26dp"
                 android:textColor="@color/black_sub"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -160,7 +234,7 @@
                 android:fontFamily="@font/avenir_demi"
                 android:text="@string/genre"
                 android:textColor="@color/black_main"
-                android:textSize="20sp"
+                android:textSize="23sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_overview_text" />
 
@@ -185,7 +259,7 @@
                 android:fontFamily="@font/avenir_demi"
                 android:text="@string/first_realise"
                 android:textColor="@color/black_main"
-                android:textSize="20sp"
+                android:textSize="23sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_genre_text" />
 
@@ -201,59 +275,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_realease"
                 tools:text="@string/realise" />
 
-            <TextView
-                android:id="@+id/tv_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/avenir_demi"
-                android:textColor="@color/black_main"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_realease_text"
-                tools:text="4.5" />
 
-            <TextView
-                android:id="@+id/tv_rating5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/avenir_medium"
-                android:text="@string/_10"
-                android:textColor="@color/black_sub"
-                android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@id/tv_rating"
-                app:layout_constraintBottom_toBottomOf="parent"
-               />
-
-            <TextView
-                android:id="@+id/tv_voter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="@font/avenir_medium"
-                android:textColor="@color/black_sub"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="4.5/5" />
-
-            <RatingBar
-                android:id="@+id/rb_userrating"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="16dp"
-                android:numStars="5"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:progressTint="@android:color/holo_orange_dark"
-                android:rating="4.4"
-                android:stepSize="0.5"
-                app:layout_constraintStart_toEndOf="@id/tv_rating5"
-              app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar

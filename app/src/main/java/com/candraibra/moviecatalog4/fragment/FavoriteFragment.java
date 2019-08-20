@@ -1,6 +1,7 @@
 package com.candraibra.moviecatalog4.fragment;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,12 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.candraibra.moviecatalog4.R;
+import com.candraibra.moviecatalog4.activity.DetailMovieActivity;
+import com.candraibra.moviecatalog4.activity.DetailTvActivity;
 import com.candraibra.moviecatalog4.adapter.FavAdapter;
 import com.candraibra.moviecatalog4.adapter.FavTvAdapter;
 import com.candraibra.moviecatalog4.db.MovieHelper;
 import com.candraibra.moviecatalog4.db.TvHelper;
 import com.candraibra.moviecatalog4.model.Movie;
 import com.candraibra.moviecatalog4.model.Tv;
+import com.candraibra.moviecatalog4.utils.ItemClickSupport;
 import com.candraibra.moviecatalog4.utils.LoadMovieCallback;
 import com.candraibra.moviecatalog4.utils.LoadTvCallback;
 
@@ -30,11 +34,9 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class FavoriteFragment extends Fragment implements LoadMovieCallback, LoadTvCallback {
-    RecyclerView rvMovie, rvTv;
-    FavAdapter favAdapter;
-    MovieHelper movieHelper;
-    FavTvAdapter favTvAdapter;
-    TvHelper tvHelper;
+    private RecyclerView rvMovie, rvTv;
+    private FavAdapter favAdapter;
+    private FavTvAdapter favTvAdapter;
     private static final String EXTRA_STATE = "EXTRA_STATE";
 
     public FavoriteFragment() {
@@ -59,10 +61,10 @@ public class FavoriteFragment extends Fragment implements LoadMovieCallback, Loa
         rvTv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         rvTv.setHasFixedSize(true);
 
-        movieHelper = MovieHelper.getInstance(getActivity());
+        MovieHelper movieHelper = MovieHelper.getInstance(getActivity());
         movieHelper.open();
 
-        tvHelper = TvHelper.getInstance(getActivity());
+        TvHelper tvHelper = TvHelper.getInstance(getActivity());
         tvHelper.open();
 
         favAdapter = new FavAdapter(getActivity());
@@ -90,11 +92,23 @@ public class FavoriteFragment extends Fragment implements LoadMovieCallback, Loa
     @Override
     public void postExecute2(ArrayList<Tv> tvs) {
         favTvAdapter.setTvList(tvs);
+        rvTv.setAdapter(favTvAdapter);
+        ItemClickSupport.addTo(rvTv).setOnItemClickListener((recyclerView, position, v) -> {
+            Intent intent = new Intent(getActivity(), DetailTvActivity.class);
+            intent.putExtra(DetailTvActivity.EXTRA_TV, tvs.get(position));
+            startActivity(intent);
+        });
     }
 
     @Override
     public void postExecute(ArrayList<Movie> movies) {
         favAdapter.setMovieList(movies);
+        rvMovie.setAdapter(favAdapter);
+        ItemClickSupport.addTo(rvMovie).setOnItemClickListener((recyclerView, position, v) -> {
+            Intent intent = new Intent(getActivity(), DetailMovieActivity.class);
+            intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, movies.get(position));
+            startActivity(intent);
+        });
     }
 
     private static class LoadMoviesAsync extends AsyncTask<Void, Void, ArrayList<Movie>> {

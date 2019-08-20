@@ -34,7 +34,9 @@
     <string name="Back"> Kembali </string>
     <string name="reviewer">Pengulas</string>
     <string name="_10">/10</string>
-    <string name="toastFav">successfully added to favorites</string>
-    <string name="toastFavFail">failed to add to favorites</string>
-    <string name="toastDel">Succesful delete</string>
+    <string name="toastFav">Udah Ditambahkan yey!!!</string>
+    <string name="toastFavFail">Yah Gagal kayaknya deh ):</string>
+    <string name="toastDel">Udah Dihapy yey</string>
+    <string name="rating">Skor</string>
+    <string name="Title">Judul</string>
 </resources>

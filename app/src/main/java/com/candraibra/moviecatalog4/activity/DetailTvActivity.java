@@ -6,14 +6,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.candraibra.moviecatalog4.R;
-import com.candraibra.moviecatalog4.db.MovieHelper;
 import com.candraibra.moviecatalog4.db.TvHelper;
 import com.candraibra.moviecatalog4.model.Genre;
 import com.candraibra.moviecatalog4.model.Tv;
@@ -31,10 +29,8 @@ public class DetailTvActivity extends AppCompatActivity implements View.OnClickL
     public int tvId;
     private ProgressBar progressBar;
     private ImageView imgBanner, imgPoster;
-    private String banner, poster, vote, voteCount;
-    private float rating;
-    private TextView tvTitle, tvOverview, tvRealiseFirst, tvGenre, tvRating, tvVoter, tvRealiseYear;
-    private RatingBar ratingBar;
+    private String banner, poster, voteCount;
+    private TextView tvTitle, tvOverview, tvRealiseFirst, tvGenre, tvRating, tvVoter, tvRealiseYear, tvTitleDesc;
     private TvRepository tvRepository;
     private ImageButton btnFav, btnDel;
     private TvHelper tvHelper;
@@ -71,17 +67,15 @@ public class DetailTvActivity extends AppCompatActivity implements View.OnClickL
                 imgBanner = findViewById(R.id.img_poster);
                 imgPoster = findViewById(R.id.img_poster2);
                 tvTitle = findViewById(R.id.tv_title);
+                tvTitleDesc = findViewById(R.id.tv_title_text);
+                tvTitleDesc.setText(tv.getName());
                 banner = tv.getBackdropPath();
                 tvTitle.setText(tv.getName());
                 tvOverview = findViewById(R.id.tv_overview_text);
                 tvOverview.setText(tv.getOverview());
-                ratingBar = findViewById(R.id.rb_userrating);
-                vote = Double.toString(tv.getVoteAverage() / 2);
                 tvVoter = findViewById(R.id.tv_voter);
-                rating = Float.parseFloat(vote);
                 voteCount = Integer.toString(tv.getVoteCount());
                 tvVoter.setText(voteCount + " " + reviewer);
-                ratingBar.setRating(rating);
                 tvRating = findViewById(R.id.tv_rating);
                 tvRating.setText(String.valueOf(tv.getVoteAverage()));
                 tvRealiseYear = findViewById(R.id.tv_realease_year);

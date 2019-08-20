@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +29,8 @@ public class DetailMovieActivity extends AppCompatActivity implements View.OnCli
     public int movieId;
     private ProgressBar progressBar;
     private ImageView imgBanner, imgPoster;
-    private String banner, poster, vote, voteCount;
-    private float rating;
-    private TextView tvTitle, tvOverview, tvRealise, tvGenre, tvRating, tvVoter, tvRealiseYear;
-    private RatingBar ratingBar;
+    private String banner, poster, voteCount;
+    private TextView tvTitle, tvOverview, tvRealise, tvGenre, tvRating, tvVoter, tvRealiseYear, tvTitleDesc;
     private MoviesRepository moviesRepository;
     private MovieHelper movieHelper;
     private ImageButton btnFav, btnDel;
@@ -41,8 +38,6 @@ public class DetailMovieActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // Movie selectedMovie = getIntent().getParcelableExtra(EXTRA_MOVIE);
-      //  String id = Integer.toString(selectedMovie.getId());
         movieHelper = MovieHelper.getInstance(getApplicationContext());
         movieHelper.open();
         setContentView(R.layout.activity_detail);
@@ -72,14 +67,12 @@ public class DetailMovieActivity extends AppCompatActivity implements View.OnCli
                 imgBanner = findViewById(R.id.img_poster);
                 imgPoster = findViewById(R.id.img_poster2);
                 tvTitle = findViewById(R.id.tv_title);
+                tvTitleDesc = findViewById(R.id.tv_title_text);
+                tvTitleDesc.setText(movie.getTitle());
                 banner = movie.getBackdropPath();
                 tvTitle.setText(movie.getTitle());
                 tvOverview = findViewById(R.id.tv_overview_text);
                 tvOverview.setText(movie.getOverview());
-                ratingBar = findViewById(R.id.rb_userrating);
-                vote = Double.toString(movie.getVoteAverage() / 2);
-                rating = Float.parseFloat(vote);
-                ratingBar.setRating(rating);
                 tvRating = findViewById(R.id.tv_rating);
                 tvRating.setText(String.valueOf(movie.getVoteAverage()));
                 tvVoter = findViewById(R.id.tv_voter);

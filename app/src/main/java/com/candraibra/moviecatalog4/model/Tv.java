@@ -168,7 +168,7 @@ public class Tv implements Parcelable {
         return "https://image.tmdb.org/t/p/w154" + posterPath;
     }
     public String getPosterPathFav() {
-        return "https://image.tmdb.org/t/p/w154" + posterPath;
+        return posterPath;
     }
 
     public void setPosterPath(String posterPath) {
