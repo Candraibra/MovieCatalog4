@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +36,7 @@ public class MovieFragment extends Fragment {
     private boolean isFetchingMovies;
     private int currentPage = 1;
     private MoviePageAdapter adapter;
+    private ProgressBar progressBar;
     private final GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
 
     public MovieFragment() {
@@ -51,11 +53,12 @@ public class MovieFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         moviesRepository = MoviesRepository.getInstance();
+        progressBar = view.findViewById(R.id.progressBar);
         recyclerView = view.findViewById(R.id.rv_discover_movie);
         getMovies(currentPage);
         setupOnScrollListener();
         if (savedInstanceState != null) {
-            //  progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
             final ArrayList<Movie> moviesState = savedInstanceState.getParcelableArrayList(LIST_STATE_KEY);
             assert moviesState != null;
             movieArrayList.addAll(moviesState);
@@ -83,10 +86,11 @@ public class MovieFragment extends Fragment {
                 int totalItemCount = manager.getItemCount();
                 int visibleItemCount = manager.getChildCount();
                 int firstVisibleItem = manager.findFirstVisibleItemPosition();
-
-                if (firstVisibleItem + visibleItemCount >= totalItemCount / 2) {
+                if (firstVisibleItem + visibleItemCount >= totalItemCount/2) {
                     if (!isFetchingMovies) {
+                        progressBar.setVisibility(View.INVISIBLE);
                         getMovies(currentPage + 1);
+
                     }
                 }
             }
@@ -105,6 +109,7 @@ public class MovieFragment extends Fragment {
             @Override
             public void onSuccess(int page, ArrayList<Movie> movies) {
                 if (adapter == null) {
+                    progressBar.setVisibility(View.INVISIBLE);
                     adapter = new MoviePageAdapter(getContext());
                     adapter.setMovieList(movies);
                     movieArrayList.addAll(movies);
@@ -117,9 +122,11 @@ public class MovieFragment extends Fragment {
                     });
                 } else {
                     adapter.appendMovies(movies);
+                    adapter.notifyDataSetChanged();
                 }
                 currentPage = page;
                 isFetchingMovies = false;
+
             }
 
             @Override

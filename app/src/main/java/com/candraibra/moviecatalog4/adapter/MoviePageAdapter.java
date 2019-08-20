@@ -30,7 +30,7 @@ public class MoviePageAdapter extends RecyclerView.Adapter<MoviePageAdapter.MyVi
 
     public void appendMovies(ArrayList<Movie> moviesToAppend) {
         movieList.addAll(moviesToAppend);
-        notifyDataSetChanged();
+
     }
 
     @NonNull

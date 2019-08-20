@@ -117,6 +117,9 @@ public class Movie implements Parcelable {
     public String getPosterPath() {
         return "https://image.tmdb.org/t/p/w342" + posterPath;
     }
+    public String getPosterPathFav() {
+        return  posterPath;
+    }
 
     public String getPosterPathMini() {
         return "https://image.tmdb.org/t/p/w154" + posterPath;

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,7 +37,7 @@ public class TvFragment extends Fragment {
     private boolean isFetchingTv;
     private int currentPage = 1;
     private TvPageAdapter adapter;
-    private ArrayList<Tv> tvArrayList2 = new ArrayList<>();
+    private ProgressBar progressBar;
 
     public TvFragment() {
         // Required empty public constructor
@@ -52,9 +53,10 @@ public class TvFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tvRepository = TvRepository.getInstance();
+        progressBar = view.findViewById(R.id.progressBar);
         recyclerView = view.findViewById(R.id.rv_discover_tv);
         if (savedInstanceState != null) {
-            //  progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
             final ArrayList<Tv> tvState = savedInstanceState.getParcelableArrayList(LIST_STATE_KEY2);
             assert tvState != null;
             tvArrayList.addAll(tvState);
@@ -81,9 +83,9 @@ public class TvFragment extends Fragment {
                 int totalItemCount = manager.getItemCount();
                 int visibleItemCount = manager.getChildCount();
                 int firstVisibleItem = manager.findFirstVisibleItemPosition();
-
                 if (firstVisibleItem + visibleItemCount >= totalItemCount / 2) {
                     if (!isFetchingTv) {
+                        progressBar.setVisibility(View.INVISIBLE);
                         getTv(currentPage + 1);
                     }
                 }
@@ -107,6 +109,7 @@ public class TvFragment extends Fragment {
                     adapter.setTvList(tvs);
                     tvArrayList.addAll(tvs);
                     recyclerView.setAdapter(adapter);
+                    progressBar.setVisibility(View.INVISIBLE);
                     ItemClickSupport.addTo(recyclerView).setOnItemClickListener((recyclerView, position, v) -> {
                         Intent intent = new Intent(getActivity(), DetailTvActivity.class);
                         intent.putExtra(DetailTvActivity.EXTRA_TV, tvs.get(position));
@@ -114,6 +117,8 @@ public class TvFragment extends Fragment {
                     });
                 } else {
                     adapter.appendTv(tvs);
+                    adapter.notifyDataSetChanged();
+
                 }
                 currentPage = page;
                 isFetchingTv = false;

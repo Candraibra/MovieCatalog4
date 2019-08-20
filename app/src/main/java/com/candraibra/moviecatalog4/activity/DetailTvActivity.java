@@ -3,6 +3,7 @@ package com.candraibra.moviecatalog4.activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.candraibra.moviecatalog4.R;
+import com.candraibra.moviecatalog4.db.MovieHelper;
+import com.candraibra.moviecatalog4.db.TvHelper;
 import com.candraibra.moviecatalog4.model.Genre;
 import com.candraibra.moviecatalog4.model.Tv;
 import com.candraibra.moviecatalog4.network.OnGetDetailTv;
@@ -28,21 +31,28 @@ public class DetailTvActivity extends AppCompatActivity implements View.OnClickL
     public int tvId;
     private ProgressBar progressBar;
     private ImageView imgBanner, imgPoster;
-    private String banner, poster, vote;
+    private String banner, poster, vote, voteCount;
     private float rating;
-    private TextView tvTitle, tvOverview, tvRealiseFirst, tvGenre;
+    private TextView tvTitle, tvOverview, tvRealiseFirst, tvGenre, tvRating, tvVoter, tvRealiseYear;
     private RatingBar ratingBar;
     private TvRepository tvRepository;
+    private ImageButton btnFav, btnDel;
+    private TvHelper tvHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tvHelper = TvHelper.getInstance(getApplicationContext());
+        tvHelper.open();
         setContentView(R.layout.activity_detailtv);
         ImageView btnBack = findViewById(R.id.backButton);
         btnBack.setOnClickListener(this);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-
+        btnFav = findViewById(R.id.btnFav);
+        btnFav.setOnClickListener(this);
+        btnDel = findViewById(R.id.btnDel);
+        btnDel.setOnClickListener(this);
         getTv();
     }
 
@@ -51,7 +61,7 @@ public class DetailTvActivity extends AppCompatActivity implements View.OnClickL
         Tv selectedTv = getIntent().getParcelableExtra(EXTRA_TV);
         tvId = selectedTv.getId();
         tvRepository = TvRepository.getInstance();
-
+        String reviewer = getString(R.string.reviewer);
         tvRepository.getTv(tvId, new OnGetDetailTv() {
             @Override
             public void onSuccess(Tv tv) {
@@ -67,8 +77,15 @@ public class DetailTvActivity extends AppCompatActivity implements View.OnClickL
                 tvOverview.setText(tv.getOverview());
                 ratingBar = findViewById(R.id.rb_userrating);
                 vote = Double.toString(tv.getVoteAverage() / 2);
+                tvVoter = findViewById(R.id.tv_voter);
                 rating = Float.parseFloat(vote);
+                voteCount = Integer.toString(tv.getVoteCount());
+                tvVoter.setText(voteCount + " " + reviewer);
                 ratingBar.setRating(rating);
+                tvRating = findViewById(R.id.tv_rating);
+                tvRating.setText(String.valueOf(tv.getVoteAverage()));
+                tvRealiseYear = findViewById(R.id.tv_realease_year);
+                tvRealiseYear.setText(tv.getFirstAirDate().split("-")[0]);
                 tvRealiseFirst = findViewById(R.id.tv_realease_text);
                 tvRealiseFirst.setText(tv.getFirstAirDate());
 
@@ -117,6 +134,25 @@ public class DetailTvActivity extends AppCompatActivity implements View.OnClickL
             {
                 finish();
             }
+        } else if (v.getId() == R.id.btnFav) {
+            Tv selectedTv = getIntent().getParcelableExtra(EXTRA_TV);
+            String toastFav = getString(R.string.toastFav);
+            String toastFavFail = getString(R.string.toastFavFail);
+            long result = tvHelper.insertTv(selectedTv);
+            if (result > 0) {
+                btnFav.setVisibility(View.GONE);
+                btnDel.setVisibility(View.VISIBLE);
+                Toast.makeText(DetailTvActivity.this, toastFav, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(DetailTvActivity.this, toastFavFail, Toast.LENGTH_SHORT).show();
+            }
+        } else if (v.getId() == R.id.btnDel) {
+            Tv selectedTv = getIntent().getParcelableExtra(EXTRA_TV);
+            String toastDel = getString(R.string.toastDel);
+            tvHelper.deleteTv(selectedTv.getId());
+            Toast.makeText(DetailTvActivity.this, toastDel, Toast.LENGTH_SHORT).show();
+            btnFav.setVisibility(View.VISIBLE);
+            btnDel.setVisibility(View.GONE);
         }
     }
 }
