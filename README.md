@@ -454,4 +454,4 @@ public class FavoriteFragment extends Fragment implements LoadMovieCallback, Loa
 
 ```
 
->  ##### Btw Kali Ini Saya Agak Lama Menyelesaikan Ini Karena Fokus Memperbaiki Ui Dan Mood Yang Kadang Tiba Tiba Menghilang Kaya Dia -_ Oke Gan Sekian Trimakasi
+>  ##### Btw Kali Ini Saya Agak Lama Menyelesaikan Ini Karena Fokus Memperbaiki Ui Dan Mood Yang Kadang Tiba Tiba Menghilang Kaya Dia -_ 
