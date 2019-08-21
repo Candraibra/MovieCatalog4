@@ -125,6 +125,7 @@ public class FavoriteFragment extends Fragment implements LoadMovieCallback, Loa
         });
     }
 
+
     @Override
     public void postExecute(ArrayList<Movie> movies) {
         favAdapter.setMovieList(movies);
