@@ -37,7 +37,10 @@ public class FavoriteFragment extends Fragment implements LoadMovieCallback, Loa
     private RecyclerView rvMovie, rvTv;
     private FavAdapter favAdapter;
     private FavTvAdapter favTvAdapter;
-    private static final String EXTRA_STATE = "EXTRA_STATE";
+    private final static String LIST_STATE_KEY = "STATE";
+    private final static String LIST_STATE_KEY2 = "STATE2";
+    private ArrayList<Movie> movieArrayList = new ArrayList<>();
+    private ArrayList<Tv> tvArrayList = new ArrayList<>();
 
     public FavoriteFragment() {
         // Required empty public constructor
@@ -77,11 +80,32 @@ public class FavoriteFragment extends Fragment implements LoadMovieCallback, Loa
             new LoadMoviesAsync(movieHelper, this).execute();
             new LoadTvAsync(tvHelper, this).execute();
         } else {
-            ArrayList<Movie> list = savedInstanceState.getParcelableArrayList(EXTRA_STATE);
-            if (list != null) {
-                favAdapter.setMovieList(list);
-            }
+            final ArrayList<Movie> moviesState = savedInstanceState.getParcelableArrayList(LIST_STATE_KEY);
+            assert moviesState != null;
+            movieArrayList.addAll(moviesState);
+            favAdapter.setMovieList(moviesState);
+            ItemClickSupport.addTo(rvMovie).setOnItemClickListener((recyclerView, position, v) -> {
+                Intent intent = new Intent(getActivity(), DetailMovieActivity.class);
+                intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, moviesState.get(position));
+                startActivity(intent);
+            });
+            final ArrayList<Tv> tvState = savedInstanceState.getParcelableArrayList(LIST_STATE_KEY2);
+            assert tvState != null;
+            tvArrayList.addAll(tvState);
+            favTvAdapter.setTvList(tvState);
+            ItemClickSupport.addTo(rvTv).setOnItemClickListener((recyclerView, position, v) -> {
+                Intent intent = new Intent(getActivity(), DetailTvActivity.class);
+                intent.putExtra(DetailTvActivity.EXTRA_TV, tvState.get(position));
+                startActivity(intent);
+            });
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(LIST_STATE_KEY, movieArrayList);
+        outState.putParcelableArrayList(LIST_STATE_KEY2, tvArrayList);
     }
 
     @Override
@@ -93,6 +117,7 @@ public class FavoriteFragment extends Fragment implements LoadMovieCallback, Loa
     public void postExecute2(ArrayList<Tv> tvs) {
         favTvAdapter.setTvList(tvs);
         rvTv.setAdapter(favTvAdapter);
+        tvArrayList.addAll(tvs);
         ItemClickSupport.addTo(rvTv).setOnItemClickListener((recyclerView, position, v) -> {
             Intent intent = new Intent(getActivity(), DetailTvActivity.class);
             intent.putExtra(DetailTvActivity.EXTRA_TV, tvs.get(position));
@@ -104,6 +129,7 @@ public class FavoriteFragment extends Fragment implements LoadMovieCallback, Loa
     public void postExecute(ArrayList<Movie> movies) {
         favAdapter.setMovieList(movies);
         rvMovie.setAdapter(favAdapter);
+        movieArrayList.addAll(movies);
         ItemClickSupport.addTo(rvMovie).setOnItemClickListener((recyclerView, position, v) -> {
             Intent intent = new Intent(getActivity(), DetailMovieActivity.class);
             intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, movies.get(position));

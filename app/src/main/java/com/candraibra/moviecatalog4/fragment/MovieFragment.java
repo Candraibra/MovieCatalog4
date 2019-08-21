@@ -86,11 +86,10 @@ public class MovieFragment extends Fragment {
                 int totalItemCount = manager.getItemCount();
                 int visibleItemCount = manager.getChildCount();
                 int firstVisibleItem = manager.findFirstVisibleItemPosition();
-                if (firstVisibleItem + visibleItemCount >= totalItemCount/2) {
+                if (firstVisibleItem + visibleItemCount >= totalItemCount / 2) {
                     if (!isFetchingMovies) {
                         progressBar.setVisibility(View.INVISIBLE);
                         getMovies(currentPage + 1);
-
                     }
                 }
             }
