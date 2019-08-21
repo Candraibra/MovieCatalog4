@@ -1,6 +1,6 @@
 ### Submission 4: Aplikasi Movie Catalogue (Local Storage)
 ##### Kriteria
-
+![](demo.gif)
 1. Terdapat 2 (dua) halaman yang menampilkan daftar film (Movies dan Tv Show).
 2. Menggunakan Fragment untuk menampung halaman Movies dan Tv Show.
 3. Menggunakan RecyclerView untuk menampilkan daftar film.
