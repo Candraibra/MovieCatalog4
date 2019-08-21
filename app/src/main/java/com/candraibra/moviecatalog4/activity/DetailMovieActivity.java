@@ -38,6 +38,8 @@ public class DetailMovieActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Movie selectedMovie = getIntent().getParcelableExtra(EXTRA_MOVIE);
+        String idMovie = Integer.toString(selectedMovie.getId());
         movieHelper = MovieHelper.getInstance(getApplicationContext());
         movieHelper.open();
         setContentView(R.layout.activity_detail);
@@ -49,6 +51,10 @@ public class DetailMovieActivity extends AppCompatActivity implements View.OnCli
         btnDel.setOnClickListener(this);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
+        if (movieHelper.checkMovie(idMovie)) {
+            btnFav.setVisibility(View.GONE);
+            btnDel.setVisibility(View.VISIBLE);
+        }
         getMovie();
 
     }

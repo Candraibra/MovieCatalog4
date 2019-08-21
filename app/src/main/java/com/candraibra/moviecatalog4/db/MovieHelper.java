@@ -6,12 +6,14 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.candraibra.moviecatalog4.model.Movie;
 
 import java.util.ArrayList;
 
 import static android.provider.BaseColumns._ID;
+import static androidx.constraintlayout.motion.widget.MotionScene.TAG;
 import static com.candraibra.moviecatalog4.db.DbContract.FavoriteMovie.COLUMN_BACKDROP_PATH;
 import static com.candraibra.moviecatalog4.db.DbContract.FavoriteMovie.COLUMN_MOVIEID;
 import static com.candraibra.moviecatalog4.db.DbContract.FavoriteMovie.COLUMN_OVERVIEW;
@@ -104,15 +106,21 @@ public class MovieHelper {
         database.delete(DbContract.FavoriteMovie.TABLE_NAME, DbContract.FavoriteMovie.COLUMN_MOVIEID + "=" + id, null);
     }
 
-    public Cursor queryById(String id) {
-        return database.query(DATABASE_TABLE
-                , null
-                , _ID + " = ?"
-                , new String[]{id}
-                , null
-                , null
-                , null
-                , null);
+    public boolean checkMovie(String id) {
+        database = dataBaseHelper.getWritableDatabase();
+        String selectString = "SELECT * FROM " + DbContract.FavoriteMovie.TABLE_NAME + " WHERE " + DbContract.FavoriteMovie.COLUMN_MOVIEID + " =?";
+        Cursor cursor = database.rawQuery(selectString, new String[]{id});
+        boolean checkMovie = false;
+        if (cursor.moveToFirst()) {
+            checkMovie = true;
+            int count = 0;
+            while (cursor.moveToNext()) {
+                count++;
+            }
+            Log.d(TAG, String.format("%d records found", count));
+        }
+        cursor.close();
+        return checkMovie;
     }
 }
 

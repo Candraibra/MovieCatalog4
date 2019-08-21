@@ -38,6 +38,8 @@ public class DetailTvActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Tv selectedTv = getIntent().getParcelableExtra(EXTRA_TV);
+        String idTv = Integer.toString(selectedTv.getId());
         tvHelper = TvHelper.getInstance(getApplicationContext());
         tvHelper.open();
         setContentView(R.layout.activity_detailtv);
@@ -49,6 +51,10 @@ public class DetailTvActivity extends AppCompatActivity implements View.OnClickL
         btnFav.setOnClickListener(this);
         btnDel = findViewById(R.id.btnDel);
         btnDel.setOnClickListener(this);
+        if (tvHelper.checkTv(idTv)) {
+            btnFav.setVisibility(View.GONE);
+            btnDel.setVisibility(View.VISIBLE);
+        }
         getTv();
     }
 

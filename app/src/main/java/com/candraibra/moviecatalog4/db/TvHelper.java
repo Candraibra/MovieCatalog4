@@ -6,12 +6,14 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.candraibra.moviecatalog4.model.Tv;
 
 import java.util.ArrayList;
 
 import static android.provider.BaseColumns._ID;
+import static androidx.constraintlayout.motion.widget.MotionScene.TAG;
 import static com.candraibra.moviecatalog4.db.DbContract.FavoriteTv.COLUMN_BACKDROP_PATH;
 import static com.candraibra.moviecatalog4.db.DbContract.FavoriteTv.COLUMN_FIRST_REALISE;
 import static com.candraibra.moviecatalog4.db.DbContract.FavoriteTv.COLUMN_MOVIEID;
@@ -28,7 +30,7 @@ public class TvHelper {
     private static TvHelper INSTANCE;
     private static SQLiteDatabase database;
 
-    public TvHelper(Context context) {
+    private TvHelper(Context context) {
         dataBaseHelper = new DbHelper(context);
     }
 
@@ -102,5 +104,22 @@ public class TvHelper {
     public void deleteTv(int id) {
         database = dataBaseHelper.getWritableDatabase();
         database.delete(DbContract.FavoriteTv.TABLE_NAME, DbContract.FavoriteTv.COLUMN_MOVIEID + "=" + id, null);
+    }
+
+    public boolean checkTv(String id) {
+        database = dataBaseHelper.getWritableDatabase();
+        String selectString = "SELECT * FROM " + DbContract.FavoriteTv.TABLE_NAME + " WHERE " + DbContract.FavoriteTv.COLUMN_MOVIEID + " =?";
+        Cursor cursor = database.rawQuery(selectString, new String[]{id});
+        boolean checkTv = false;
+        if (cursor.moveToFirst()) {
+            checkTv = true;
+            int count = 0;
+            while (cursor.moveToNext()) {
+                count++;
+            }
+            Log.d(TAG, String.format("%d records found", count));
+        }
+        cursor.close();
+        return checkTv;
     }
 }
