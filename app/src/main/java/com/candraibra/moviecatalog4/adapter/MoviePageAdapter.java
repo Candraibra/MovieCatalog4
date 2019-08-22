@@ -23,6 +23,7 @@ public class MoviePageAdapter extends RecyclerView.Adapter<MoviePageAdapter.MyVi
         this.movieList = new ArrayList<>();
     }
 
+
     public void setMovieList(ArrayList<Movie> movieList) {
         this.movieList = movieList;
 
